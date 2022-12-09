@@ -1,0 +1,102 @@
+Design unit tests for the Rest controller in assignment 8.  You are not required to code the tests although you might it helpful to do so.   The set of tests should be designed to provide “C0” (Statement) level coverage -- that is every code block is executed by at least one test in the test suite.  Recall that unit tests should use the FIRST principle (Fast, Independent, Repeatable, Self-checking, Timely).
+Complete the following table which describes each test.  Submit this completed document for credit.
+The first few tests are done for you as an example.
+
+Test
+
+
+Description
+T1
+Test checkout with valid book id and valid patron id
+URL tested: PUT  /book/{book_id}/checkout/{patron_id}
+Mock:   BookRepository.findById  return book entity
+Mock:   PatronRepository.findById return patron entity, no fines
+Expected Http Response Code: 200 OK
+Expected Return Value: 0 
+Verify:  BookRepository.save method called
+
+
+T2
+Test checkout when patron has fines
+URL tested:  PUT  /book/{book_id}/checkout/{patron_id}
+Mock:   BookRepository.findById return book entity
+Mock:   PatronRepository.findById, return patron entity with fines
+Expected Http Response Code: 200 OK
+Expected Return Value: -3
+Verify:  BookRepository.save was not called
+
+
+T3
+Test checkout when patron id invalid
+URL tested:  PUT  /book/{book_id}/checkout/{patron_id}
+Mock:   BookRepository.findById return book entity
+Mock:   PatronRepository.findById returns null
+Expected Http Response Code: 404  
+Expected Return Value: message:  patron_id not found
+Verify:  BookRepository.save was not called
+
+
+T4
+Test checkout when book id invalid
+URL tested:  PUT  /book/{book_id}/checkout/{patron_id}
+Mock:   BookRepository.findById return null
+Expected Http Response Code: 404  
+Expected Return Value: message:  book_id not found
+Verify:  BookRepository.save was not called
+
+T5
+Test return with valid book id
+URL tested:  PUT /book/{book_id}/return
+Mock:   BookRepository.findById return book entity
+Expected Http Response Code: 200 OK 
+Expected Return Value: 0 
+Verify:  BookRepository.save method called
+
+T6
+Test return with invalid book id
+URL tested:  PUT /book/{book_id}/return
+Mock:   BookRepository.findById returns null
+Expected Http Response Code: 404 
+Expected Return Value: message:  book_id not found
+Verify:  BookRepository.save was not called
+
+T7
+Test checkouts with valid patron id
+URL tested:  GET /patron/{patron_id}/checkouts
+Mock:   BookRepository.findById return book entity
+Expected Http Response Code: 200 OK
+Expected Return Value: message:  List of patrons checkout books
+Verify:  BookRepository.save was called
+
+T8
+Test checkouts with invalid patron id
+URL tested:  GET /patron/{patron_id}/checkouts
+Mock:  PatronRepository.findById returns null
+Expected Http Response Code: 404
+Expected Return Value: message:  patron_id not found
+Verify:  BookRepository.save was not called
+
+T9
+Test checkouts with empty list
+URL tested:  GET /patron/{patron_id}/checkouts
+Mock:  PatronRepository.findById returns entity 
+Expected Http Response Code: 200 OK
+Expected Return Value: message:  empty list 
+Verify:  BookRepository.save was called
+
+T10
+Test patron info with valid patron id
+URL tested:  GET /patron/{patron_id}
+Mock:  PatronRepository.findById returns entity 
+Expected Http Response Code: 200 OK
+Expected Return Value: message:  Patron info in Json form with id, name, fines
+Verify:  BookRepository.save was called
+T11
+Test patron info with invalid patron id
+URL tested:  GET /patron/{patron_id}
+Mock:  PatronRepository.findById returns null
+Expected Http Response Code: 404
+Expected Return Value: message:  patron_id not found
+Verify:  BookRepository.save was not called
+
+Link: https://docs.google.com/document/d/1CrPHB9WoIrQfHdjz8EyLaGgFJwVC5u7v/edit?usp=sharing&ouid=114789601858824984142&rtpof=true&sd=true
